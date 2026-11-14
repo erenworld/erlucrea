@@ -2,7 +2,7 @@
 // Numéro WhatsApp au format international, sans + ni espaces (ex. 33612345678)
 const WHATSAPP = "33750936066";
 
-// Prix en euros. null = affiché « prix au stand » (le panier marche quand même).
+// Prix en euros. null = aucun prix affiché (le panier marche quand même).
 const PRODUCTS = [
   { id: "sac-ourson", cat: ["sacs", "cadeaux"], name: "Sac à dos ourson bouclette", price: null,
     desc: "Bouclette toute douce, oreilles d'ourson, prénom brodé en grandes lettres.",
@@ -154,7 +154,7 @@ function cardHTML(p) {
       ${alt ? `<img class="img-b" src="${alt}" alt="" loading="lazy">` : ""}
       <span class="card-heart" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></span>
     </div>
-    <div class="card-meta"><h3 class="card-title">${esc(p.name)}</h3><span class="card-price">${p.price == null ? "prix au stand" : euro(p.price)}</span></div>
+    <div class="card-meta"><h3 class="card-title">${esc(p.name)}</h3><span class="card-price">${p.price == null ? "" : euro(p.price)}</span></div>
     <p class="card-desc">${esc(p.desc)}</p>
     ${sw}
     <button type="button" class="btn-cart" data-add="${p.id}">ajouter au panier</button>
@@ -197,7 +197,7 @@ function renderCart() {
           <div class="qty"><button type="button" data-dec="${i}" aria-label="Retirer un">−</button><span>${l.qty}</span><button type="button" data-inc="${i}" aria-label="Ajouter un">+</button></div>
         </div>
         <div class="line-right">
-          <span class="line-price">${p.price == null ? "au stand" : euro(p.price * l.qty)}</span>
+          <span class="line-price">${p.price == null ? "" : euro(p.price * l.qty)}</span>
           <button type="button" class="link-del" data-del="${i}">retirer</button>
         </div>
       </div>`;
