@@ -1,6 +1,6 @@
 /* ============ À MODIFIER ============ */
 // Numéro WhatsApp au format international, sans + ni espaces (ex. 33612345678)
-const WHATSAPP = "33XXXXXXXXX";
+const WHATSAPP = "33750936066";
 
 // Prix en euros. null = affiché « prix au stand » (le panier marche quand même).
 const PRODUCTS = [
