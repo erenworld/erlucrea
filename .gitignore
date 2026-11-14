@@ -1,0 +1,9 @@
+# Seuls index.html, app.js, styles.css et assets/photos/web sont publiés
+/assets/*
+!/assets/photos/
+/assets/photos/*
+!/assets/photos/web/
+tools/
+versions/
+.vercelignore
+.DS_Store
