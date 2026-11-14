@@ -228,6 +228,8 @@ document.addEventListener("keydown", e => { if (e.key === "Escape" && drawer.cla
 
 /* ---- Modale : couleur + prénom ---- */
 const modal = $("[data-modal]");
+// Ferme la fenêtre quand on clique à l'extérieur (sur le fond sombre)
+modal.addEventListener("click", e => { if (e.target === modal) modal.close(); });
 let current = null, currentVariant = null, currentFont = FONTS[0];
 const fontById = id => FONTS.find(f => f.id === id) || FONTS[0];
 function paintPreview() {
