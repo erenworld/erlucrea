@@ -146,13 +146,12 @@ const waLink = text => `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(text
 const grid = $("#grid");
 function cardHTML(p) {
   const v = p.variants[0];
-  const sw = p.variants.length > 1
-    ? `<div class="card-swatches" aria-label="Couleurs disponibles">${p.variants.map((x, i) => `<button type="button" class="sw sw-btn" data-sw="${i}" style="background:${x.color}" title="${esc(x.label)}" aria-label="${esc(x.label)}"></button>`).join("")}</div>`
-    : "";
+  const sw = "";
+  const alt = v.img2 || (p.variants[1] && p.variants[1].img);
   return `<article class="card" data-id="${p.id}" data-cat="${p.cat.join(" ")}">
     <div class="card-tile is-photo">
       <img class="img-a" src="${v.img}" alt="${esc(p.name)}" loading="lazy">
-      ${v.img2 ? `<img class="img-b" src="${v.img2}" alt="" loading="lazy">` : ""}
+      ${alt ? `<img class="img-b" src="${alt}" alt="" loading="lazy">` : ""}
       <span class="card-heart" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></span>
     </div>
     <div class="card-meta"><h3 class="card-title">${esc(p.name)}</h3><span class="card-price">${p.price == null ? "prix au stand" : euro(p.price)}</span></div>
@@ -193,7 +192,6 @@ function renderCart() {
         <div class="line-img"><img src="${v.img}" alt=""></div>
         <div>
           <p class="line-title">${esc(p.name)}</p>
-          ${p.variants.length > 1 ? `<p class="line-opt">Couleur : ${esc(v.label)}</p>` : ""}
           <p class="line-opt">${l.prenom ? `Prénom : <span class="line-prenom" style="font-family:${fontById(l.font).css}">${esc(fontById(l.font).upper ? l.prenom.toUpperCase() : l.prenom)}</span>` : "Sans prénom"}</p>
           ${l.prenom ? `<p class="line-opt">Écriture : ${esc(fontById(l.font).label)}</p>` : ""}
           <div class="qty"><button type="button" data-dec="${i}" aria-label="Retirer un">−</button><span>${l.qty}</span><button type="button" data-inc="${i}" aria-label="Ajouter un">+</button></div>
@@ -246,7 +244,7 @@ function openModal(p, vi = 0) {
   $("[data-modal-img]").alt = p.name;
   $("[data-modal-title]").textContent = p.name;
   const sw = $("[data-modal-swatches]");
-  sw.innerHTML = p.variants.length > 1 ? p.variants.map((v, i) =>
+  sw.innerHTML = false ? p.variants.map((v, i) =>
     `<button type="button" class="swatch-btn" data-v="${i}" aria-pressed="${v === currentVariant}"><span class="sw" style="background:${v.color}"></span>${esc(v.label)}</button>`).join("") : "";
   $("[data-modal-prenom]").value = "";
   currentFont = FONTS[0];
@@ -290,7 +288,7 @@ $("[data-checkout]").addEventListener("click", () => {
   const who = $("[data-customer-name]").value.trim();
   const lines = cart.map(l => {
     const p = byId(l.id);
-    const opts = [p.variants.length > 1 ? `couleur ${l.variant}` : "", l.prenom ? `prénom « ${l.prenom} », écriture ${fontById(l.font).label.toLowerCase()}` : "sans prénom"].filter(Boolean).join(", ");
+    const opts = [l.prenom ? `prénom « ${l.prenom} », écriture ${fontById(l.font).label.toLowerCase()}` : "sans prénom"].filter(Boolean).join(", ");
     return `• ${l.qty} × ${p.name} (${opts})${p.price != null ? ` : ${euro(p.price * l.qty)}` : ""}`;
   });
   const msg = `Bonjour Erlucrea${who ? `, c'est ${who}` : ""} !\nJe voudrais commander :\n${lines.join("\n")}\n\nMerci de me confirmer le prix et le délai.`;
